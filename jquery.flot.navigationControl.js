@@ -25,6 +25,9 @@ Customizations:
         position: {left: "20px", top: "20px"}
     };
 
+To make the control symbols (+, -, ←, ↑, →, ↓, ⌂) more beautiful, you may include your own icon fonts css file, the symbols 
+have the css class 'icon' for you to hook.
+
 */
 
 ; (function ($) {
