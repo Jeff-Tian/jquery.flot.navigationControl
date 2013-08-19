@@ -7,9 +7,9 @@ Copyright (c) 2013 http://zizhujy.com.
 Licensed under the MIT license.
 
 ##Usage:##
-Inside the <head></head> area of your html page, add the following line:
+Inside the `<head></head>` area of your html page, add the following line:
 
-<script type="text/javascript" src="http://zizhujy.com/Scripts/flot/jquery.flot.navigationControl.js"></script>
+`<script type="text/javascript" src="http://zizhujy.com/Scripts/flot/jquery.flot.navigationControl.js"></script>`
 
 Now you are all set, there will be pan and zooming controls appear on your canvas.
 
