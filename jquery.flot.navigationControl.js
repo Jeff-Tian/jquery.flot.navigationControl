@@ -19,10 +19,12 @@ These navigation controls would only work if you have referenced jquery.flot.nav
 
 Customizations:
     options = {
-        homeRange: {xmin:-10,xmax:10,ymin:-10,ymax:10},
-        panAmount: 100,
-        zoomAmount: 1.5,
-        position: {left: "20px", top: "20px"}
+            navigationControl: {
+            homeRange: {xmin:-10,xmax:10,ymin:-10,ymax:10},
+            panAmount: 100,
+            zoomAmount: 1.5,
+            position: {left: "20px", top: "20px"}
+        }
     };
 
 To make the control symbols (+, -, ←, ↑, →, ↓, ⌂) more beautiful, you may include your own icon fonts css file, the symbols 
@@ -38,8 +40,10 @@ have the css class 'icon' for you to hook.
         plot.hooks.shutdown.push(shutdown);
     }
 
-    function drawNavigationControl(plot, canvascontext){
-        var control = "<div id='navigation-control' style='width: 0; height: 0; left: " + options.position.left + "; top: " + options.position.top + "; position: absolute;'>Control</div>";
+    function drawNavigationControl(plot, canvascontext) {
+        var options = plot.getOptions();
+
+        var control = "<div id='navigation-control' style='width: 0; height: 0; left: " + options.navigationControl.position.left + "; top: " + options.navigationControl.position.top + "; position: absolute;'>Control</div>";
         var zoomin = "<div id='zoom-in' style='position: absolute; left: 32px; top: 0; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='icon' style='font-size: normal; color: #666;'>+</span></div></div>";
         var home = "<div id='zoom-home' style='position: absolute; left: 32px; top: 64px; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='icon' style='font-size: normal; color: #666;'>⌂</span></div></div>";
         var zoomout = "<div id='zoom-out' style='position: absolute; left: 32px; top: 128px; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='icon' style='font-size: normal; color: #666;'>-</span></div></div>";
@@ -78,57 +82,65 @@ have the css class 'icon' for you to hook.
         $placeholder.find("#pan-left").unbind("click");
     }
 
-    function zoomIn(plot){
-        var center = plot.p2c({x:0, y:0});
-        plot.zoom({amount: options.zoomAmount, center: center});
+    function zoomIn(plot) {
+        var axes = plot.getAxes();
+        var xaxis = axes.xaxis;
+        var yaxis = axes.yaxis;
+        var center = plot.p2c({ x: (xaxis.min + xaxis.max) / 2, y: (yaxis.min + yaxis.max) / 2 });
+        plot.zoom({ amount: options.navigationControl.zoomAmount, center: center });
     }
 
-    function zoomOut(plot){
-        var center = plot.p2c({x:0, y:0});
-        plot.zoomOut({amount: options.zoomAmount, center: center});
+    function zoomOut(plot) {
+        var axes = plot.getAxes();
+        var xaxis = axes.xaxis;
+        var yaxis = axes.yaxis;
+        var center = plot.p2c({ x: (xaxis.min + xaxis.max) / 2, y: (yaxis.min + yaxis.max) / 2 });
+        plot.zoomOut({ amount: options.navigationControl.zoomAmount, center: center });
     }
 
     function zoomHome(plot){
         var axes = plot.getAxes();
         var xaxis= axes.xaxis;
         var yaxis = axes.yaxis;
-        xaxis.options.min = options.homeRange.xmin;
-        xaxis.options.max = options.homeRange.xmax;
-        yaxis.options.min = options.homeRange.ymin;
-        yaxis.options.max = options.homeRange.ymax;
+        xaxis.options.min = options.navigationControl.homeRange.xmin;
+        xaxis.options.max = options.navigationControl.homeRange.xmax;
+        yaxis.options.min = options.navigationControl.homeRange.ymin;
+        yaxis.options.max = options.navigationControl.homeRange.ymax;
 
         plot.setupGrid();
         plot.draw();
     }
 
     function panUp(plot){
-        plot.pan({top:options.panAmount});
+        plot.pan({ top: options.navigationControl.panAmount });
     }
 
     function panRight(plot){
-        plot.pan({left: -options.panAmount});
+        plot.pan({ left: -options.navigationControl.panAmount });
     }
 
     function panDown(plot){
-        plot.pan({top:-options.panAmount});
+        plot.pan({ top: -options.navigationControl.panAmount });
     }
 
     function panLeft(plot){
-        plot.pan({left: options.panAmount});
+        plot.pan({ left: options.navigationControl.panAmount });
     }
 
     var options = {
-        homeRange: {xmin:-10,xmax:10,ymin:-10,ymax:10},
-        panAmount: 100,
-        zoomAmount: 1.5,
-        position: {left: "20px", top: "20px"}
+        navigationControl: {
+            homeRange: { xmin: -10, xmax: 10, ymin: -10, ymax: 10 },
+            panAmount: 100,
+            zoomAmount: 1.5,
+            position: { left: "20px", top: "20px" }
+        }
     };
 
     $.plot.plugins.push({
         init: init,
         options: options,
         name: 'navigationControl',
-        version: '0.1'
+        version: '1.0'
     });
 
 })(jQuery);

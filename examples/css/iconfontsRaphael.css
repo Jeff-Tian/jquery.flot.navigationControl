@@ -1,0 +1,39 @@
+﻿@font-face 
+{
+    font-family: 'RaphaelIcons';
+    src: url('../fonts/raphaelicons-webfont.eot');
+    src: local('â˜º'), 
+        url('../fonts/raphaelicons-webfont.eot') format('embedded-opentype'),
+        url('../fonts/raphaelicons-webfont.woff') format('woff'),
+        url('../fonts/raphaelicons-webfont.ttf') format('truetype'),
+        url('../fonts/raphaelicons-webfont.svg') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[data-icon]:before
+{
+    font-family: RaphaelIcons;
+    content: attr(data-icon);
+    speak: none;
+}
+
+.icon-alone 
+{
+    display: inline-block;  /* Chrome 19 was weird with clickability without this */
+}
+
+.screen-reader-text 
+{
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+}
+
+.icon 
+{
+    font-weight: normal;
+    font-style: normal;
+    line-height: normal;
+    font-family: RaphaelIcons;
+}
