@@ -21,10 +21,12 @@ These navigation controls would only work if you have referenced jquery.flot.nav
 
 ##Customizations:##
     options = {
-        homeRange: {xmin:-10,xmax:10,ymin:-10,ymax:10},
-        panAmount: 100,
-        zoomAmount: 1.5,
-        position: {left: "20px", top: "20px"}
+			navigationControl: {
+			homeRange: {xmin:-10,xmax:10,ymin:-10,ymax:10},
+			panAmount: 100,
+			zoomAmount: 1.5,
+			position: {left: "20px", top: "20px"}
+		}
     };
 
 To make the control symbols (+, -, ←, ↑, →, ↓, ⌂) more beautiful, you may include your own icon fonts css file, the symbols 
