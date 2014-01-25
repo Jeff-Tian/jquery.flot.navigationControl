@@ -7,8 +7,7 @@
 	<link href="css/iconfontsFico.css" rel="stylesheet" />
 	<style type="text/css">
 		.icon {
-			display: inline-block;
-			padding: 5px 0;
+		    vertical-align: middle;
 		}
 	</style>
     <!-- flot -->
@@ -61,7 +60,8 @@
 	                interactive: true
                 },
                 navigationControl: {
-	                position: { left: "30px", top: "20px" }
+                    position: { left: "30px", top: "20px" },
+                    display: "block"
                 }
 	        };
 
@@ -75,7 +75,7 @@
 <body>
 
     <div id="header">
-        <h2>Saving chart as image file</h2>
+        <h2>Navigation control for flot chart.</h2>
     </div>
 
     <div id="content">
@@ -83,8 +83,8 @@
             <div id="canvas-wrapper" class="demo-placeholder"></div>
         </div>
 
-        <p>This example shows how to save the chart as an image file.</p>
-        <p>Right click on the chart and choose "Save as image..." option from the context menu.</p>
+        <p>This example shows how to add a navigation control to the flot chart.</p>
+        <p>Explore by yourself through click these lovely buttons on the left top corner the above chart.</p>
 
     </div>
 
