@@ -63,7 +63,7 @@ have the css class 'icon' for you to hook.
 
         var control = "<div id='navigation-control' style='width: 0; height: 0; left: " + options.navigationControl.position.left + "; top: " + options.navigationControl.position.top + "; position: absolute; display: " + display + ";'>Control</div>";
 
-        var buttonTemplate = "<div id='{0}' style='box-sizing: border-box; position: absolute; left: {1}; top: {2}; height: 28px; width: 28px; border: solid 1px #666; padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='helper'></span><span class='icon' style='color: #666;{4}'>{3}</span></div></div>";
+        var buttonTemplate = "<div id='{0}' style='box-sizing: border-box; position: absolute; left: {1}; top: {2}; height: 28px; width: 28px; border: solid 1px #666; padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='icon' style='color: #666; vertical-align: baseline;{4}'>{3}</span></div></div>";
 
         var horizontalZoomin = buttonTemplate.format('zoom-in-horizontal', '0', '0', '&#xe603;', ' font-size: larger!important;');
         var zoomin = buttonTemplate.format('zoom-in', '29px', '0', '+', '');
@@ -73,7 +73,7 @@ have the css class 'icon' for you to hook.
 
         var horizontalZoomout = buttonTemplate.format('zoom-out-horizontal', '0', '116px', '&#xe603;', ' font-size: larger!important;');
         var zoomout = buttonTemplate.format('zoom-out', '29px', '116px', '-', '');
-        var verticalZoomout = buttonTemplate.format('zoom-out-vertical', '58px', '116px', '&#xe600', ' font-size: larger!important;');
+        var verticalZoomout = buttonTemplate.format('zoom-out-vertical', '58px', '116px', '&#xe600;', ' font-size: larger!important;');
 
         var panup = buttonTemplate.format('pan-up', '29px', '29px', '↑', '');
 
@@ -89,13 +89,6 @@ have the css class 'icon' for you to hook.
         $("#navigation-control").remove();
         
         $(control).html(horizontalZoomin + zoomin + verticalZoomin + whitebox + panup + whitebox + panleft + home + panright + whitebox + pandown + whitebox + horizontalZoomout + zoomout + verticalZoomout).appendTo($placeholder);
-
-        $("#navigation-control span.helper").css({
-            "display": "inline-block",
-            "height": "100%",
-            "vertical-align": "middle",
-            "position": "relative"
-        });
 
         $placeholder.find("#zoom-in-horizontal").click(function () { zoomIn(plot, 'xaxis', 'yaxis'); });
         $placeholder.find("#zoom-in").click(function () { zoomIn(plot); });
@@ -271,7 +264,7 @@ have the css class 'icon' for you to hook.
         init: init,
         options: options,
         name: 'navigationControl',
-        version: '1.2'
+        version: '1.3'
     });
 
 })(jQuery);
