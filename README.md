@@ -14,11 +14,11 @@ Inside the `<head></head>` area of your html page, add the following line:
 Now you are all set, there will be pan and zooming controls appear on your canvas.
 
 ##Online examples:##
-- (http://zizhujy.com/FunctionGrapher "Online Function Grapher") is using it.
-- ![Online Function Grapher is using Navigation Control plugin](onlineExample.png "Online Function Grapher is using Navigation Control plugin")
-- (http://zizhujy.com/en-US/Plotter "Online plotter") is using it
-- (http://zizhujy.com/JsLibs/JsLibs/NavigationControl?example=BasicExample "Basic Example")
-- (http://zizhujy.com/JsLibs/JsLibs/NavigationControl?example=MultipleCharts "Work with multiple charts Example")
+- [Online Function Grapher](http://zizhujy.com/FunctionGrapher "Online Function Grapher") is using it.
+- ![Online Function Grapher is using Navigation Control plugin](OnlineExample.png "Online Function Grapher is using Navigation Control plugin")
+- [Online Plotter](http://zizhujy.com/en-US/Plotter "Online plotter") is using it
+- [Basic Example](http://zizhujy.com/JsLibs/JsLibs/NavigationControl?example=BasicExample "Basic Example")
+- [Work with multiple charts example](http://zizhujy.com/JsLibs/JsLibs/NavigationControl?example=MultipleCharts "Work with multiple charts Example")
 
 ##Dependencies:##
 These navigation controls would only work if you have referenced jquery.flot.navigation.js plugin and enabled it already.
@@ -50,4 +50,4 @@ have the css class 'icon' for you to hook.
 ![Zoom out horizontally](zoomOutHorizontally.png "Zoom out horizontally")
 
 #Work with multiple flot charts:#
-[Work with multiple flot charts](workWithMultipleCharts.png "Work with multiple flot charts.")
+![Work with multiple flot charts](workWithMultipleCharts.png "Work with multiple flot charts.")
