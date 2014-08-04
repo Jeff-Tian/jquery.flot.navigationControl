@@ -224,6 +224,8 @@ have the css class 'icon' for you to hook.
     }
 
     function zoomHome(plot) {
+        var options = plot.getOptions();
+
         var axes = plot.getAxes();
         var xaxis = axes.xaxis;
         var yaxis = axes.yaxis;
@@ -269,7 +271,7 @@ have the css class 'icon' for you to hook.
         init: init,
         options: options,
         name: 'navigationControl',
-        version: '1.1'
+        version: '1.2'
     });
 
 })(jQuery);
