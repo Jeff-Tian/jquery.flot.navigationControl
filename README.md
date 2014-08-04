@@ -17,8 +17,8 @@ Now you are all set, there will be pan and zooming controls appear on your canva
 - [Online Function Grapher](http://zizhujy.com/FunctionGrapher "Online Function Grapher") is using it.
 - ![Online Function Grapher is using Navigation Control plugin](OnlineExample.png "Online Function Grapher is using Navigation Control plugin")
 - [Online Plotter](http://zizhujy.com/en-US/Plotter "Online plotter") is using it
-- [Basic Example](http://zizhujy.com/JsLibs/JsLibs/NavigationControl?example=BasicExample "Basic Example")
-- [Work with multiple charts example](http://zizhujy.com/JsLibs/JsLibs/NavigationControl?example=MultipleCharts "Work with multiple charts Example")
+- [Basic Example](http://zizhujy.com/JsLibs/NavigationControl?example=BasicExample "Basic Example")
+- [Work with multiple charts example](http://zizhujy.com/JsLibs/NavigationControl?example=MultipleCharts "Work with multiple charts Example")
 
 ##Dependencies:##
 These navigation controls would only work if you have referenced jquery.flot.navigation.js plugin and enabled it already.
