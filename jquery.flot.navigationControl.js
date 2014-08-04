@@ -33,6 +33,22 @@ have the css class 'icon' for you to hook.
 */
 
 ; (function ($) {
+    String.prototype.format = function () {
+        if (arguments.length <= 0) {
+            return this;
+        } else {
+            var format = this;
+            var args = arguments;
+
+            var s = format.replace(/(?:[^{]|^|\b|)(?:{{)*(?:{(\d+)}){1}(?:}})*(?=[^}]|$|\b)/g, function (match, number) {
+                number = parseInt(number);
+
+                return typeof args[number] != "undefined" ? match.replace(/{\d+}/g, args[number]) : match;
+            });
+
+            return s.replace(/{{/g, "{").replace(/}}/g, "}");
+        }
+    };
 
     function init(plot, classes) {
         plot.hooks.draw.push(drawNavigationControl);
@@ -44,22 +60,35 @@ have the css class 'icon' for you to hook.
         var options = plot.getOptions();
 
         var display = options.navigationControl.display || "none";
-        
-        var control = "<div id='navigation-control' style='width: 0; height: 0; left: " + options.navigationControl.position.left + "; top: " + options.navigationControl.position.top + "; position: absolute; display: " + display + ";'>Control</div>";
-        var zoomin = "<div id='zoom-in' style='box-sizing: border-box; position: absolute; left: 29px; top: 0; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='helper'></span><span class='icon' style='color: #666;'>+</span></div></div>";
-        var home = "<div id='zoom-home' style='box-sizing: border-box; position: absolute; left: 29px; top: 58px; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='helper'></span><span class='icon' style='color: #666;'>⌂</span></div></div>";
-        var zoomout = "<div id='zoom-out' style='box-sizing: border-box; position: absolute; left: 29px; top: 116px; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='helper'></span><span class='icon' style='color: #666;'>-</span></div></div>";
 
-        var panup = "<div id='pan-up' style='box-sizing: border-box; position: absolute; left: 29px; top: 29px; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='helper'></span><span class='icon' style='color: #666;'>↑</span></div></div>";
-        var panright = "<div id='pan-right' style='box-sizing: border-box; position: absolute; left: 58px; top: 58px; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='helper'></span><span class='icon' style='color: #666;'>→</span></div></div>";
-        var pandown = "<div id='pan-down' style='box-sizing: border-box; position: absolute; left: 29px; top: 87px; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='helper'></span><span class='icon' style='color: #666;'>↓</span></div></div>";
-        var panleft = "<div id='pan-left' style='box-sizing: border-box; position: absolute; left: 0; top: 58px; height: 28px; width: 28px; border: solid 1px #666;  padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='helper'></span><span class='icon' style='color: #666;'>←</span></div></div>";
+        var control = "<div id='navigation-control' style='width: 0; height: 0; left: " + options.navigationControl.position.left + "; top: " + options.navigationControl.position.top + "; position: absolute; display: " + display + ";'>Control</div>";
+
+        var buttonTemplate = "<div id='{0}' style='box-sizing: border-box; position: absolute; left: {1}; top: {2}; height: 28px; width: 28px; border: solid 1px #666; padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; vertical-align: middle; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='helper'></span><span class='icon' style='color: #666;{4}'>{3}</span></div></div>";
+
+        var horizontalZoomin = buttonTemplate.format('zoom-in-horizontal', '0', '0', '&#xe603;', ' font-size: larger!important;');
+        var zoomin = buttonTemplate.format('zoom-in', '29px', '0', '+', '');
+        var verticalZoomin = buttonTemplate.format('zoom-in-vertical', '58px', '0', '&#xe600;', ' font-size: larger!important;');
+
+        var home = buttonTemplate.format('zoom-home', '29px', '58px', '⌂', '');
+
+        var horizontalZoomout = buttonTemplate.format('zoom-out-horizontal', '0', '116px', '&#xe603;', ' font-size: larger!important;');
+        var zoomout = buttonTemplate.format('zoom-out', '29px', '116px', '-', '');
+        var verticalZoomout = buttonTemplate.format('zoom-out-vertical', '58px', '116px', '&#xe600', ' font-size: larger!important;');
+
+        var panup = buttonTemplate.format('pan-up', '29px', '29px', '↑', '');
+
+        var panright = buttonTemplate.format('pan-right', '58px', '58px', '→', '');
+
+        var pandown = buttonTemplate.format('pan-down', '29px', '87px', '↓', '');
+
+        var panleft = buttonTemplate.format('pan-left', '0', '58px', '←', '');
 
         var whitebox = ""; // "<div class='navigation-control-placeholder' style='height: 28px; width: 28px; border: solid 1px transparent; margin-bottom: 1px; padding: 0; line-height: 28px; border-radius: 5px; vertical-align: middle; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); background-color: transparent; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'></div>";
 
         var $placeholder = plot.getPlaceholder();
         $("#navigation-control").remove();
-        $(control).html(whitebox + zoomin + whitebox + whitebox + panup + whitebox + panleft + home + panright + whitebox + pandown + whitebox + whitebox + zoomout + whitebox).appendTo($placeholder);
+        
+        $(control).html(horizontalZoomin + zoomin + verticalZoomin + whitebox + panup + whitebox + panleft + home + panright + whitebox + pandown + whitebox + horizontalZoomout + zoomout + verticalZoomout).appendTo($placeholder);
 
         $("#navigation-control span.helper").css({
             "display": "inline-block",
@@ -68,21 +97,29 @@ have the css class 'icon' for you to hook.
             "position": "relative"
         });
 
-        $placeholder.find("#zoom-in").click(function(){zoomIn(plot);});
-        $placeholder.find("#zoom-out").click(function(){zoomOut(plot);});
-        $placeholder.find("#zoom-home").click(function(){zoomHome(plot);});
+        $placeholder.find("#zoom-in-horizontal").click(function () { zoomIn(plot, 'xaxis', 'yaxis'); });
+        $placeholder.find("#zoom-in").click(function () { zoomIn(plot); });
+        $placeholder.find("#zoom-in-vertical").click(function () { zoomIn(plot, 'yaxis', 'xaxis'); });
+        $placeholder.find('#zoom-out-horizontal').click(function () { zoomOut(plot, 'xaxis', 'yaxis'); });
+        $placeholder.find("#zoom-out").click(function () { zoomOut(plot); });
+        $placeholder.find('#zoom-out-vertical').click(function() { zoomOut(plot, 'yaxis', 'xaxis'); });
+        $placeholder.find("#zoom-home").click(function () { zoomHome(plot); });
 
-        $placeholder.find("#pan-up").click(function(){panUp(plot);});
-        $placeholder.find("#pan-right").click(function(){panRight(plot);});
-        $placeholder.find("#pan-down").click(function(){panDown(plot);});
-        $placeholder.find("#pan-left").click(function(){panLeft(plot);});
+        $placeholder.find("#pan-up").click(function () { panUp(plot); });
+        $placeholder.find("#pan-right").click(function () { panRight(plot); });
+        $placeholder.find("#pan-down").click(function () { panDown(plot); });
+        $placeholder.find("#pan-left").click(function () { panLeft(plot); });
     }
 
-    function shutdown(plot, eventHolder){
+    function shutdown(plot, eventHolder) {
         var $placeholder = plot.getPlaceholder();
 
+        $placeholder.find("#zoom-in-horizontal").unbind("click");
         $placeholder.find("#zoom-in").unbind("click");
+        $placeholder.find("#zoom-in-vertical").unbind("click");
+        $placeholder.find('#zoom-out-horizontal').unbind('click');
         $placeholder.find("#zoom-out").unbind("click");
+        $placeholder.find('#zoom-out-vertical').unbind('click');
         $placeholder.find("#zoom-home").unbind("click");
 
         $placeholder.find("#pan-up").unbind("click");
@@ -91,48 +128,131 @@ have the css class 'icon' for you to hook.
         $placeholder.find("#pan-left").unbind("click");
     }
 
-    function zoomIn(plot) {
+    var m_originalRatioXY = false;
+
+    function zoomIn(plot, zoomAxis, notZoomAxis) {
         var axes = plot.getAxes();
         var xaxis = axes.xaxis;
         var yaxis = axes.yaxis;
         var center = plot.p2c({ x: (xaxis.min + xaxis.max) / 2, y: (yaxis.min + yaxis.max) / 2 });
+
+        var originalZoomRange = null;
+
+        if (notZoomAxis) {
+            originalZoomRange = plot.getAxes()[notZoomAxis].options.zoomRange;
+            plot.getAxes()[notZoomAxis].options.zoomRange = false;
+            if (plot.getOptions().coordinate && plot.getOptions().coordinate.ratioXY) {
+                m_originalRatioXY = plot.getOptions().coordinate.ratioXY;
+                plot.getOptions().coordinate.ratioXY = false;
+            }
+        }
+
+        //console.log('before zoom');
+        $.each(plot.getAxes(), function (_, axis) {
+            //console.log('axis: {0}, axis.min: {1}, axis.max: {2}, axis.options.min: {3}, axis.options.max: {4}.'
+            //    .format(_, axis.min, axis.max, axis.options.min, axis.options.max));
+
+            axis.options.min = axis.min;
+            axis.options.max = axis.max;
+
+            //console.log('axis: {0}, axis.min: {1}, axis.max: {2}, axis.options.min: {3}, axis.options.max: {4}.'
+            //    .format(_, axis.min, axis.max, axis.options.min, axis.options.max));
+        });
+
         plot.zoom({ amount: options.navigationControl.zoomAmount, center: center });
+
+        //console.log('after zoom');
+        if (notZoomAxis) {
+            plot.getAxes()[notZoomAxis].options.zoomRange = originalZoomRange;
+
+            //$.each(plot.getAxes(), function (_, axis) {
+            //    console.log('axis: {0}, axis.min: {1}, axis.max: {2}, axis.options.min: {3}, axis.options.max: {4}.'
+            //        .format(_, axis.min, axis.max, axis.options.min, axis.options.max));
+
+            //    axis.options.min = axis.min;
+            //    axis.options.max = axis.max;
+
+            //    console.log('axis: {0}, axis.min: {1}, axis.max: {2}, axis.options.min: {3}, axis.options.max: {4}.'
+            //        .format(_, axis.min, axis.max, axis.options.min, axis.options.max));
+            //});
+        }
     }
 
-    function zoomOut(plot) {
+    function zoomOut(plot, zoomAxis, notZoomAxis) {
         var axes = plot.getAxes();
         var xaxis = axes.xaxis;
         var yaxis = axes.yaxis;
         var center = plot.p2c({ x: (xaxis.min + xaxis.max) / 2, y: (yaxis.min + yaxis.max) / 2 });
+        var originalZoomRange = null;
+
+        if (notZoomAxis) {
+            originalZoomRange = plot.getAxes()[notZoomAxis].options.zoomRange;
+            plot.getAxes()[notZoomAxis].options.zoomRange = false;
+            if (plot.getOptions().coordinate && plot.getOptions().coordinate.ratioXY) {
+                m_originalRatioXY = plot.getOptions().coordinate.ratioXY;
+                plot.getOptions().coordinate.ratioXY = false;
+            }
+        }
+
+        //console.log('before zoom');
+        $.each(plot.getAxes(), function (_, axis) {
+            //console.log('axis: {0}, axis.min: {1}, axis.max: {2}, axis.options.min: {3}, axis.options.max: {4}.'
+            //    .format(_, axis.min, axis.max, axis.options.min, axis.options.max));
+
+            axis.options.min = axis.min;
+            axis.options.max = axis.max;
+
+            //console.log('axis: {0}, axis.min: {1}, axis.max: {2}, axis.options.min: {3}, axis.options.max: {4}.'
+            //    .format(_, axis.min, axis.max, axis.options.min, axis.options.max));
+        });
         plot.zoomOut({ amount: options.navigationControl.zoomAmount, center: center });
+        //console.log('after zoom');
+        if (notZoomAxis) {
+            plot.getAxes()[notZoomAxis].options.zoomRange = originalZoomRange;
+
+            //$.each(plot.getAxes(), function (_, axis) {
+            //    console.log('axis: {0}, axis.min: {1}, axis.max: {2}, axis.options.min: {3}, axis.options.max: {4}.'
+            //        .format(_, axis.min, axis.max, axis.options.min, axis.options.max));
+
+            //    axis.options.min = axis.min;
+            //    axis.options.max = axis.max;
+
+            //    console.log('axis: {0}, axis.min: {1}, axis.max: {2}, axis.options.min: {3}, axis.options.max: {4}.'
+            //        .format(_, axis.min, axis.max, axis.options.min, axis.options.max));
+            //});
+        }
     }
 
-    function zoomHome(plot){
+    function zoomHome(plot) {
         var axes = plot.getAxes();
-        var xaxis= axes.xaxis;
+        var xaxis = axes.xaxis;
         var yaxis = axes.yaxis;
         xaxis.options.min = options.navigationControl.homeRange.xmin;
         xaxis.options.max = options.navigationControl.homeRange.xmax;
         yaxis.options.min = options.navigationControl.homeRange.ymin;
         yaxis.options.max = options.navigationControl.homeRange.ymax;
 
+        if (plot.getOptions().coordinate && m_originalRatioXY) {
+            plot.getOptions().coordinate.ratioXY = m_originalRatioXY;
+        }
+
         plot.setupGrid();
         plot.draw();
     }
 
-    function panUp(plot){
+    function panUp(plot) {
         plot.pan({ top: options.navigationControl.panAmount });
     }
 
-    function panRight(plot){
+    function panRight(plot) {
         plot.pan({ left: -options.navigationControl.panAmount });
     }
 
-    function panDown(plot){
+    function panDown(plot) {
         plot.pan({ top: -options.navigationControl.panAmount });
     }
 
-    function panLeft(plot){
+    function panLeft(plot) {
         plot.pan({ left: options.navigationControl.panAmount });
     }
 
@@ -149,7 +269,7 @@ have the css class 'icon' for you to hook.
         init: init,
         options: options,
         name: 'navigationControl',
-        version: '1.0'
+        version: '1.1'
     });
 
 })(jQuery);
