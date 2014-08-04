@@ -61,9 +61,9 @@ have the css class 'icon' for you to hook.
 
         var display = options.navigationControl.display || "none";
 
-        var control = "<div id='navigation-control' style='width: 0; height: 0; left: " + options.navigationControl.position.left + "; top: " + options.navigationControl.position.top + "; position: absolute; display: " + display + ";'>Control</div>";
+        var control = "<div class='navigation-control' style='width: 0; height: 0; left: " + options.navigationControl.position.left + "; top: " + options.navigationControl.position.top + "; position: absolute; display: " + display + ";'>Control</div>";
 
-        var buttonTemplate = "<div id='{0}' style='box-sizing: border-box; position: absolute; left: {1}; top: {2}; height: 28px; width: 28px; border: solid 1px #666; padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='icon' style='color: #666; vertical-align: baseline;{4}'>{3}</span></div></div>";
+        var buttonTemplate = "<div class='{0}' style='box-sizing: border-box; position: absolute; left: {1}; top: {2}; height: 28px; width: 28px; border: solid 1px #666; padding: 0; line-height: 28px; border-radius: 5px; cursor: pointer; background-color: #f5f5f5; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'><div><span class='icon' style='color: #666; vertical-align: baseline;{4}'>{3}</span></div></div>";
 
         var horizontalZoomin = buttonTemplate.format('zoom-in-horizontal', '0', '0', '&#xe603;', ' font-size: larger!important;');
         var zoomin = buttonTemplate.format('zoom-in', '29px', '0', '+', '');
@@ -86,39 +86,39 @@ have the css class 'icon' for you to hook.
         var whitebox = ""; // "<div class='navigation-control-placeholder' style='height: 28px; width: 28px; border: solid 1px transparent; margin-bottom: 1px; padding: 0; line-height: 28px; border-radius: 5px; vertical-align: middle; text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); background-color: transparent; display: inline-block; text-align: center; -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15); box-shadow: 0 0 4px rgba(0, 0, 0, 0); text-shadow: 1px 1px 5px rgba(100, 100, 100, 0.75);'></div>";
 
         var $placeholder = plot.getPlaceholder();
-        $("#navigation-control").remove();
+        $placeholder.find(".navigation-control").remove();
         
         $(control).html(horizontalZoomin + zoomin + verticalZoomin + whitebox + panup + whitebox + panleft + home + panright + whitebox + pandown + whitebox + horizontalZoomout + zoomout + verticalZoomout).appendTo($placeholder);
 
-        $placeholder.find("#zoom-in-horizontal").click(function () { zoomIn(plot, 'xaxis', 'yaxis'); });
-        $placeholder.find("#zoom-in").click(function () { zoomIn(plot); });
-        $placeholder.find("#zoom-in-vertical").click(function () { zoomIn(plot, 'yaxis', 'xaxis'); });
-        $placeholder.find('#zoom-out-horizontal').click(function () { zoomOut(plot, 'xaxis', 'yaxis'); });
-        $placeholder.find("#zoom-out").click(function () { zoomOut(plot); });
-        $placeholder.find('#zoom-out-vertical').click(function() { zoomOut(plot, 'yaxis', 'xaxis'); });
-        $placeholder.find("#zoom-home").click(function () { zoomHome(plot); });
+        $placeholder.find(".zoom-in-horizontal").click(function () { zoomIn(plot, 'xaxis', 'yaxis'); });
+        $placeholder.find(".zoom-in").click(function () { zoomIn(plot); });
+        $placeholder.find(".zoom-in-vertical").click(function () { zoomIn(plot, 'yaxis', 'xaxis'); });
+        $placeholder.find('.zoom-out-horizontal').click(function () { zoomOut(plot, 'xaxis', 'yaxis'); });
+        $placeholder.find(".zoom-out").click(function () { zoomOut(plot); });
+        $placeholder.find('.zoom-out-vertical').click(function() { zoomOut(plot, 'yaxis', 'xaxis'); });
+        $placeholder.find(".zoom-home").click(function () { zoomHome(plot); });
 
-        $placeholder.find("#pan-up").click(function () { panUp(plot); });
-        $placeholder.find("#pan-right").click(function () { panRight(plot); });
-        $placeholder.find("#pan-down").click(function () { panDown(plot); });
-        $placeholder.find("#pan-left").click(function () { panLeft(plot); });
+        $placeholder.find(".pan-up").click(function () { panUp(plot); });
+        $placeholder.find(".pan-right").click(function () { panRight(plot); });
+        $placeholder.find(".pan-down").click(function () { panDown(plot); });
+        $placeholder.find(".pan-left").click(function () { panLeft(plot); });
     }
 
     function shutdown(plot, eventHolder) {
         var $placeholder = plot.getPlaceholder();
 
-        $placeholder.find("#zoom-in-horizontal").unbind("click");
-        $placeholder.find("#zoom-in").unbind("click");
-        $placeholder.find("#zoom-in-vertical").unbind("click");
-        $placeholder.find('#zoom-out-horizontal').unbind('click');
-        $placeholder.find("#zoom-out").unbind("click");
-        $placeholder.find('#zoom-out-vertical').unbind('click');
-        $placeholder.find("#zoom-home").unbind("click");
+        $placeholder.find(".zoom-in-horizontal").unbind("click");
+        $placeholder.find(".zoom-in").unbind("click");
+        $placeholder.find(".zoom-in-vertical").unbind("click");
+        $placeholder.find('.zoom-out-horizontal').unbind('click');
+        $placeholder.find(".zoom-out").unbind("click");
+        $placeholder.find('.zoom-out-vertical').unbind('click');
+        $placeholder.find(".zoom-home").unbind("click");
 
-        $placeholder.find("#pan-up").unbind("click");
-        $placeholder.find("#pan-right").unbind("click");
-        $placeholder.find("#pan-down").unbind("click");
-        $placeholder.find("#pan-left").unbind("click");
+        $placeholder.find(".pan-up").unbind("click");
+        $placeholder.find(".pan-right").unbind("click");
+        $placeholder.find(".pan-down").unbind("click");
+        $placeholder.find(".pan-left").unbind("click");
     }
 
     var m_originalRatioXY = false;
@@ -264,7 +264,7 @@ have the css class 'icon' for you to hook.
         init: init,
         options: options,
         name: 'navigationControl',
-        version: '1.3'
+        version: '1.4'
     });
 
 })(jQuery);
